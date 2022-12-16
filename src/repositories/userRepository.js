@@ -13,3 +13,7 @@ export async function getUserByEmail(email) {
   return (await db.query("SELECT * FROM users WHERE email = $1", [email]))
     .rows[0];
 }
+
+export async function getUserById(id) {
+  return (await db.query("SELECT * FROM users WHERE id = $1", [id])).rows[0];
+}

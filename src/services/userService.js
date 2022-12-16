@@ -9,3 +9,7 @@ export async function createUser(user) {
 export async function userByEmail(email) {
   return await getUserByEmail(email);
 }
+
+export async function userById(id) {
+  return await getUserById(id);
+}
