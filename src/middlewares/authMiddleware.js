@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import jwt from "jsonwebtoken";
-import { userById } from "../services/userService";
+import { userById } from "../services/userService.js";
 
 export default async function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
@@ -30,7 +30,7 @@ export default async function authMiddleware(req, res, next) {
 
     const user = await userById(decoded.id);
 
-    console.log(user);
+    console.log(decoded.id);
 
     if (!user) {
       return res.status(401).send({ message: "Token invalido!" });
