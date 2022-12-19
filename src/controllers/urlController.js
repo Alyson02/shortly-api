@@ -3,6 +3,7 @@ import {
   createUrl,
   GetUrlByShortUrl,
   increaseView,
+  listRanking,
   sGetUrl,
 } from "../services/urlService.js";
 
@@ -49,7 +50,15 @@ export async function accessUrl(req, res) {
 
     res.redirect(url.url);
   } catch (error) {
-    console.log(error);
+    res.status(500).send("Erro interno");
+  }
+}
+
+export async function ranking(req, res) {
+  try {
+    const ranking = await listRanking();
+    res.send(ranking);
+  } catch (error) {
     res.status(500).send("Erro interno");
   }
 }

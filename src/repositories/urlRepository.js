@@ -26,3 +26,13 @@ export async function selectUrlByShortUrl(shortUrl) {
 export async function updateView(id, views) {
   await db.query(`UPDATE urls SET views = $1 WHERE id = $2`, [views, id]);
 }
+
+export async function selectRanking() {
+  return (await db.query(`
+  SELECT u.id, u.name, COUNT(u.id) as "linksCount", SUM(urls.views) as "visitCount"
+    FROM public.urls 
+    JOIN users u on u.id = urls."userId"
+    GROUP BY u.id
+    ORDER BY "visitCount" DESC
+    LIMIT 10;`)).rows;
+}
