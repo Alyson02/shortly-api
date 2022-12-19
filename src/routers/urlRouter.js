@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { shorten } from "../controllers/urlController.js";
+import { getUrl, shorten } from "../controllers/urlController.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
 import validationMiddleware from "../middlewares/validationMiddleware.js";
 import schemas from "../models/schemas.js";
@@ -12,5 +12,7 @@ urlRouter.post(
   validationMiddleware(schemas.urlPOST),
   shorten
 );
+
+urlRouter.get("/urls/:id", getUrl);
 
 export default urlRouter;

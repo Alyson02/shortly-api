@@ -10,3 +10,9 @@ export async function insertUrl(url) {
     url.userId,
   ]);
 }
+
+export async function getUrlById(id) {
+  return (
+    await db.query(`SELECT id, "shortUrl", url FROM urls WHERE id = $1`, [id])
+  ).rows[0];
+}
