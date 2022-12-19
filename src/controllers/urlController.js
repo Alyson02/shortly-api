@@ -1,5 +1,10 @@
 import { nanoid } from "nanoid";
-import { createUrl, sGetUrl } from "../services/urlService.js";
+import {
+  createUrl,
+  GetUrlByShortUrl,
+  increaseView,
+  sGetUrl,
+} from "../services/urlService.js";
 
 export async function shorten(req, res) {
   try {
@@ -29,6 +34,22 @@ export async function getUrl(req, res) {
 
     res.send(url);
   } catch (error) {
+    res.status(500).send("Erro interno");
+  }
+}
+
+export async function accessUrl(req, res) {
+  try {
+    const { shortUrl } = req.params;
+    const url = await GetUrlByShortUrl(shortUrl);
+
+    if (!url) res.sendStatus(404);
+
+    await increaseView(url.id, url.views);
+
+    res.redirect(url.url);
+  } catch (error) {
+    console.log(error);
     res.status(500).send("Erro interno");
   }
 }

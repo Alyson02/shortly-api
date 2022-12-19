@@ -16,3 +16,13 @@ export async function getUrlById(id) {
     await db.query(`SELECT id, "shortUrl", url FROM urls WHERE id = $1`, [id])
   ).rows[0];
 }
+
+export async function selectUrlByShortUrl(shortUrl) {
+  return (
+    await db.query(`SELECT * FROM urls WHERE "shortUrl" = $1`, [shortUrl])
+  ).rows[0];
+}
+
+export async function updateView(id, views) {
+  await db.query(`UPDATE urls SET views = $1 WHERE id = $2`, [views, id]);
+}
