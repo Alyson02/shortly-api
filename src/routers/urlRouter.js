@@ -3,7 +3,9 @@ import {
   accessUrl,
   getUrl,
   ranking,
+  removeUrl,
   shorten,
+  userUrls,
 } from "../controllers/urlController.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
 import validationMiddleware from "../middlewares/validationMiddleware.js";
@@ -23,5 +25,9 @@ urlRouter.get("/urls/:id", getUrl);
 urlRouter.get("/urls/open/:shortUrl", accessUrl);
 
 urlRouter.get("/ranking", ranking);
+
+urlRouter.delete("/urls/:id", authMiddleware, removeUrl);
+
+urlRouter.get("/users/me", authMiddleware, userUrls);
 
 export default urlRouter;

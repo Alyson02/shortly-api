@@ -1,5 +1,8 @@
 import {
+  deleteUrl,
+  getSumVisitsUser,
   getUrlById,
+  getUrlsByUserId,
   insertUrl,
   selectRanking,
   selectUrlByShortUrl,
@@ -25,4 +28,16 @@ export async function increaseView(idUrl, views) {
 
 export async function listRanking() {
   return await selectRanking();
+}
+
+export async function sRemoveUrl(id) {
+  return await deleteUrl(id);
+}
+
+export async function getUrlsUser(userId) {
+  return await getUrlsByUserId(userId);
+}
+
+export async function getUserCountVisits(userId) {
+  return await getSumVisitsUser(userId);
 }

@@ -12,9 +12,7 @@ export async function insertUrl(url) {
 }
 
 export async function getUrlById(id) {
-  return (
-    await db.query(`SELECT id, "shortUrl", url FROM urls WHERE id = $1`, [id])
-  ).rows[0];
+  return (await db.query(`SELECT * FROM urls WHERE id = $1`, [id])).rows[0];
 }
 
 export async function selectUrlByShortUrl(shortUrl) {
@@ -28,11 +26,31 @@ export async function updateView(id, views) {
 }
 
 export async function selectRanking() {
-  return (await db.query(`
+  return (
+    await db.query(`
   SELECT u.id, u.name, COUNT(u.id) as "linksCount", SUM(urls.views) as "visitCount"
     FROM public.urls 
-    JOIN users u on u.id = urls."userId"
+    LEFT JOIN users u on u.id = urls."userId"
     GROUP BY u.id
     ORDER BY "visitCount" DESC
-    LIMIT 10;`)).rows;
+    LIMIT 10;`)
+  ).rows;
+}
+
+export async function deleteUrl(id) {
+  await db.query(`DELETE FROM urls WHERE id = $1`, [id]);
+}
+
+export async function getUrlsByUserId(userId) {
+  return (await db.query(`SELECT * FROM urls WHERE "userId" = $1`, [userId]))
+    .rows;
+}
+
+export async function getSumVisitsUser(userId) {
+  return (
+    await db.query(
+      `SELECT SUM(views) as "visitCount" FROM urls where "userId" = $1;`,
+      [userId]
+    )
+  ).rows[0].visitCount;
 }
