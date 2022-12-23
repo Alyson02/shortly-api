@@ -6,7 +6,8 @@ export async function signup(req, res) {
   try {
     const body = req.body;
 
-    const hasUserWithEmail = (await userByEmail(body.email).length) > 0;
+    const hasUserWithEmail = (await userByEmail(body.email));
+    console.log(hasUserWithEmail)
     if (hasUserWithEmail) return res.sendStatus(409);
 
     await createUser(body);
