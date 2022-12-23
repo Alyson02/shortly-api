@@ -28,9 +28,9 @@ export async function updateView(id, views) {
 export async function selectRanking() {
   return (
     await db.query(`
-  SELECT u.id, u.name, COUNT(u.id) as "linksCount", SUM(urls.views) as "visitCount"
+  SELECT u.id, u.name, COUNT(urls.id) as "linksCount", COALESCE(SUM(urls.views), 0) as "visitCount"
     FROM public.urls 
-    LEFT JOIN users u on u.id = urls."userId"
+    RIGHT JOIN users u on u.id = urls."userId"
     GROUP BY u.id
     ORDER BY "visitCount" DESC
     LIMIT 10;`)
